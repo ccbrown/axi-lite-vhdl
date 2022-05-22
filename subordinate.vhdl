@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 entity subordinate is
     generic (
         C_S_AXI_DATA_WIDTH : integer := 32;
-        C_S_AXI_ADDR_WIDTH : integer := 2
+        C_S_AXI_ADDR_WIDTH : integer := 4
     );
 
     port (
@@ -121,7 +121,7 @@ begin
                 r2 <= (others => '0');
                 r3 <= (others => '0');
             else
-                dest_register := axi_awaddr(1 downto 0);
+                dest_register := axi_awaddr(3 downto 2);
                 if (should_write = '1') then
                     case dest_register is
                         when b"00" =>
@@ -162,7 +162,7 @@ begin
     process (r0, r1, r2, r3, axi_araddr, S_AXI_ARESETN, should_read)
         variable loc_addr :std_logic_vector(1 downto 0);
     begin
-        loc_addr := axi_araddr(1 downto 0);
+        loc_addr := axi_araddr(3 downto 2);
         case loc_addr is
             when b"00" =>
                 read_data <= r0;

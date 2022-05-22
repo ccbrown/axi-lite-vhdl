@@ -1,2 +1,5 @@
 *.ghw
 *.cf
+/subordinate.v
+formal/subordinate_prove
+formal/subordinate_cover

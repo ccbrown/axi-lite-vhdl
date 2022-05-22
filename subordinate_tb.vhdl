@@ -7,7 +7,7 @@ use std.env.finish;
 entity subordinate_tb is
     generic (
         C_S_AXI_DATA_WIDTH : integer := 32;
-        C_S_AXI_ADDR_WIDTH : integer := 2
+        C_S_AXI_ADDR_WIDTH : integer := 4
     );
 end subordinate_tb;
 
@@ -88,7 +88,7 @@ begin
 
         -- Write
 
-        S_AXI_AWADDR <= b"01";
+        S_AXI_AWADDR <= b"0100";
         S_AXI_WSTRB <= b"1111";
         S_AXI_AWVALID <= '1';
         S_AXI_WDATA <= b"01010101010101010101010101010101";
@@ -114,7 +114,7 @@ begin
 
         -- Read
 
-        S_AXI_ARADDR <= b"01";
+        S_AXI_ARADDR <= b"0100";
         S_AXI_ARVALID <= '1';
         wait for T;
 
