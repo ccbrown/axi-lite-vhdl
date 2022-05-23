@@ -90,12 +90,12 @@ begin
 
         S_AXI_WSTRB <= b"1111";
         S_AXI_AWVALID <= '1';
-        S_AXI_WDATA <= b"01010101010101010101010101010101";
         S_AXI_WVALID <= '1';
         S_AXI_BREADY <= '1';
 
         -- Write to r0
         S_AXI_AWADDR <= b"0000";
+        S_AXI_WDATA <= b"01010101010101010101010101010101";
         wait for T;
         assert(S_AXI_AWREADY = '1' and S_AXI_WREADY = '1');
 
@@ -106,6 +106,7 @@ begin
 
         -- Write to r1
         S_AXI_AWADDR <= b"0100";
+        S_AXI_WDATA <= b"01111101010101110101010101011101";
         wait for T;
         assert(S_AXI_AWREADY = '1' and S_AXI_WREADY = '1');
 
@@ -117,6 +118,7 @@ begin
 
         -- Write to r2
         S_AXI_AWADDR <= b"1000";
+        S_AXI_WDATA <= b"11111100000000000000000000000000";
         wait for T;
         assert(S_AXI_AWREADY = '1' and S_AXI_WREADY = '1');
 
@@ -128,6 +130,7 @@ begin
 
         -- Write to r3
         S_AXI_AWADDR <= b"1100";
+        S_AXI_WDATA <= b"00000000000000000000000000000001";
         wait for T;
         assert(S_AXI_AWREADY = '1' and S_AXI_WREADY = '1');
 
@@ -147,17 +150,48 @@ begin
         S_AXI_AWVALID <= '0';
         S_AXI_WVALID <= '0';
 
-        -- READ
+        -- READS
 
-        S_AXI_ARADDR <= b"0100";
         S_AXI_ARVALID <= '1';
+        S_AXI_RREADY <= '1';
+
+        -- Read r0
+        S_AXI_ARADDR <= b"0000";
         wait for T;
 
-        assert(S_AXI_ARREADY = '0');
-        assert(S_AXI_RVALID = '1');
+        assert(S_AXI_ARREADY = '0' and S_AXI_RVALID = '1');
         assert(S_AXI_RDATA = b"01010101010101010101010101010101");
 
-        S_AXI_RREADY <= '1';
+        wait for T;
+        assert(S_AXI_RVALID = '0');
+
+        -- Read r1
+        S_AXI_ARADDR <= b"0100";
+        wait for T;
+
+        assert(S_AXI_ARREADY = '0' and S_AXI_RVALID = '1');
+        assert(S_AXI_RDATA = b"01111101010101110101010101011101");
+
+        wait for T;
+        assert(S_AXI_RVALID = '0');
+
+        -- Read r2
+        S_AXI_ARADDR <= b"1000";
+        wait for T;
+
+        assert(S_AXI_ARREADY = '0' and S_AXI_RVALID = '1');
+        assert(S_AXI_RDATA = b"11111100000000000000000000000000");
+
+        wait for T;
+        assert(S_AXI_RVALID = '0');
+
+        -- Read r3
+        S_AXI_ARADDR <= b"1100";
+        wait for T;
+
+        assert(S_AXI_ARREADY = '0' and S_AXI_RVALID = '1');
+        assert(S_AXI_RDATA = b"00000000000000000000000000000001");
+
         wait for T;
         assert(S_AXI_RVALID = '0');
 
