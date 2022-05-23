@@ -2,7 +2,7 @@
 
 module subordinate_verification #(
 		parameter	C_AXI_ADDR_WIDTH = 4,
-		localparam	C_AXI_DATA_WIDTH = 32,
+		localparam	C_AXI_DATA_WIDTH = 32
 ) (
 		// {{{
 		input	wire					S_AXI_ACLK,
@@ -55,7 +55,7 @@ module subordinate_verification #(
         .S_AXI_RDATA(S_AXI_RDATA),
         .S_AXI_RRESP(S_AXI_RRESP),
         .S_AXI_RVALID(S_AXI_RVALID),
-        .S_AXI_RREADY(S_AXI_RREADY),
+        .S_AXI_RREADY(S_AXI_RREADY)
     );
 
 	////////////////////////////////////////////////////////////////////////
@@ -78,7 +78,8 @@ module subordinate_verification #(
 		.F_AXI_MAXWAIT(3),
 		.F_AXI_MAXDELAY(3),
 		.F_AXI_MAXRSTALL(5),
-		.F_OPT_COVER_BURST(4)
+		.F_OPT_COVER_BURST(4),
+        .F_OPT_INITIAL(0)
 		// }}}
 	) faxil(
 		// {{{

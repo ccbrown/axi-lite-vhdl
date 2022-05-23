@@ -35,13 +35,13 @@ end subordinate;
 architecture arch of subordinate is
     signal axi_awaddr : std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
     signal axi_wready : std_logic;
-    signal axi_bresp : std_logic_vector(1 downto 0);
-    signal axi_bvalid : std_logic;
+    signal axi_bresp : std_logic_vector(1 downto 0) := b"00";
+    signal axi_bvalid : std_logic := '0';
     signal axi_araddr : std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
     signal axi_arready : std_logic;
     signal axi_rdata : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
-    signal axi_rresp : std_logic_vector(1 downto 0);
-    signal axi_rvalid : std_logic;
+    signal axi_rresp : std_logic_vector(1 downto 0) := b"00";
+    signal axi_rvalid : std_logic := '0';
 
     signal r0 : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
     signal r1 : std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
