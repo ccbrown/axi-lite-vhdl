@@ -70,7 +70,7 @@ begin
 
     process
     begin
-        -- Reset
+        -- RESET
 
         S_AXI_ARESETN <= '0';
         S_AXI_AWVALID <= '0';
@@ -86,33 +86,68 @@ begin
 
         S_AXI_ARESETN <= '1';
 
-        -- Write
+        -- WRITES
 
-        S_AXI_AWADDR <= b"0100";
         S_AXI_WSTRB <= b"1111";
         S_AXI_AWVALID <= '1';
         S_AXI_WDATA <= b"01010101010101010101010101010101";
         S_AXI_WVALID <= '1';
-        wait for T;
+        S_AXI_BREADY <= '1';
 
+        -- Write to r0
+        S_AXI_AWADDR <= b"0000";
+        wait for T;
         assert(S_AXI_AWREADY = '1' and S_AXI_WREADY = '1');
 
+        -- Check response
         wait for T;
-
         assert(S_AXI_AWREADY = '0' and S_AXI_WREADY = '0');
+        assert(S_AXI_BVALID = '1' and S_AXI_BRESP = b"00");
 
-        S_AXI_AWVALID <= '0';
-        S_AXI_WVALID <= '0';
+        -- Write to r1
+        S_AXI_AWADDR <= b"0100";
+        wait for T;
+        assert(S_AXI_AWREADY = '1' and S_AXI_WREADY = '1');
 
+        -- Check response
+        wait for T;
+        assert(S_AXI_AWREADY = '0' and S_AXI_WREADY = '0');
+        assert(S_AXI_BVALID = '1' and S_AXI_BRESP = b"00");
+        S_AXI_AWADDR <= b"1000";
+
+        -- Write to r2
+        S_AXI_AWADDR <= b"1000";
+        wait for T;
+        assert(S_AXI_AWREADY = '1' and S_AXI_WREADY = '1');
+
+        -- Check response
+        wait for T;
+        assert(S_AXI_AWREADY = '0' and S_AXI_WREADY = '0');
+        assert(S_AXI_BVALID = '1' and S_AXI_BRESP = b"00");
+        S_AXI_AWADDR <= b"1000";
+
+        -- Write to r3
+        S_AXI_AWADDR <= b"1100";
+        wait for T;
+        assert(S_AXI_AWREADY = '1' and S_AXI_WREADY = '1');
+
+        -- Check response
+        wait for T;
+        assert(S_AXI_AWREADY = '0' and S_AXI_WREADY = '0');
+        assert(S_AXI_BVALID = '1' and S_AXI_BRESP = b"00");
+        S_AXI_AWADDR <= b"1000";
+
+        -- Apply some backpressure and make sure the response is available until we're ready for it
+        S_AXI_BREADY <= '0';
+        wait for 2 * T;
         assert(S_AXI_BVALID = '1' and S_AXI_BRESP = b"00");
         S_AXI_BREADY <= '1';
 
-        wait for T;
+        -- We're done writing
+        S_AXI_AWVALID <= '0';
+        S_AXI_WVALID <= '0';
 
-        assert(S_AXI_BVALID = '0');
-        S_AXI_BREADY <= '0';
-
-        -- Read
+        -- READ
 
         S_AXI_ARADDR <= b"0100";
         S_AXI_ARVALID <= '1';
