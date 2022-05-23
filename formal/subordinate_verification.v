@@ -78,8 +78,7 @@ module subordinate_verification #(
 		.F_AXI_MAXWAIT(3),
 		.F_AXI_MAXDELAY(3),
 		.F_AXI_MAXRSTALL(5),
-		.F_OPT_COVER_BURST(4),
-        .F_OPT_INITIAL(0)
+		.F_OPT_COVER_BURST(4)
 		// }}}
 	) faxil(
 		// {{{
